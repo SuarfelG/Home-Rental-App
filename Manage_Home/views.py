@@ -6,3 +6,9 @@ view=Blueprint("views" , __name__)
 @view.route("/")
 def Home ():
     return render_template("home.html")
+@view.route("/signup")
+def signup ():
+    return render_template("signup.html")
+@view.route("/login")
+def login ():
+    return render_template("login.html")

@@ -28,7 +28,7 @@ def login():
 def signup():
     if request.method=="POST":
         Name=request.form.get("Name")
-        Father_Name=request.form.get("Father")
+        Father_Name=request.form.get("Middle")
         Email=request.form.get("Email")
         Password=request.form.get("Password")
         user_type=request.form.get("user_type")
