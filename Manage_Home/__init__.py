@@ -18,8 +18,10 @@ def create_App():
     db.init_app(app)
 
     from .views import view
+    from .auth import auth
 
     app.register_blueprint(view,url_prefix="/")
+    app.register_blueprint(auth,url_prefix='/')
 
     create_database(app)
 
