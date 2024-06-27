@@ -11,7 +11,8 @@ db = SQLAlchemy()
 def create_App():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = "1234567890"
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///home.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] ='mysql+pymysql://root:goat300@127.0.0.1:3306/homerental_db'
+
     app.config["PERMANENT_SESSION_LIFETIME"]=timedelta(minutes=5)
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

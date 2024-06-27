@@ -12,7 +12,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Home Rental</a>
+            <a class="navbar-brand" href="/">Home Rental</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -36,10 +36,21 @@
             </div>
         </div>
     </nav>
-{% with messages = get_flashed_messages() %}
+{% with messages = get_flashed_messages(with_categories=True) %}
     {% if messages %}
-        {% for m in messages %}
-            {{ m }}
+        {% for category, message in messages %}
+            {% if category == "error" %}
+                <div class="alert alert-danger alter-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% else %}
+                <div class="alert alert-success alter-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endif %}
+     
         {% endfor %}
     {% endif %}
 {% endwith %}

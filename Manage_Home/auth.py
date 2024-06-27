@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField ,RadioField , SubmitField
 from wtforms.validators import DataRequired
 from . import db
-from .models import User
+from .models import User_Auth
 from werkzeug.security import generate_password_hash , check_password_hash
 auth=Blueprint("auth", __name__)
 
@@ -22,7 +22,7 @@ def login():
         if request.method=="POST":
              password=request.form.get('password')
              email=request.form.get('email')
-             EmailExist=User.query.filter_by(email=email).first()
+             EmailExist=User_Auth.query.filter_by(email=email).first()
 
              if EmailExist:
                     if check_password_hash(EmailExist.password,password):
@@ -46,7 +46,7 @@ def signup():
         password=request.form.get("password")
         AccountType=request.form.get('flexRadioDefault')
 
-        EmailExist=User.query.filter_by(email=email).first()
+        EmailExist=User_Auth.query.filter_by(email=email).first()
 
         
         if EmailExist:
@@ -62,8 +62,8 @@ def signup():
         elif(len(password))<4:
                 flash("Password is too short" , category="error")
         else:
-                newuser=User(first_name=first_name , middle_name=middle_name , last_name=last_name ,email=email , password=generate_password_hash(password, method='pbkdf2:sha256')  , AccountType=AccountType )
-                db.session.add(newuser)
+                newUser_Auth=User_Auth(first_name=first_name , middle_name=middle_name , last_name=last_name ,email=email , password=generate_password_hash(password, method='pbkdf2:sha256')  , AccountType=AccountType )
+                db.session.add(newUser_Auth)
                 db.session.commit()
                 flash("Signed in Successfuly" , category="success")
                 return render_template("home.html")
