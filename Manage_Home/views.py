@@ -12,3 +12,6 @@ def signup ():
 @view.route("/login")
 def login ():
     return render_template("login.html")
+@view.route("/about")
+def about():
+    return render_template("about.html")
