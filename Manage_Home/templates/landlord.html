@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>This Is Landlord Page</h1>
+
+<div class="forms">
+    <form action="" method="post">
+        <div class="mb-3">
+            <label for="" class="form-label">Location</label>
+            <input name="Location" type="text" class="form-control" id="Location" placeholder="Enter Home Location">
+          </div>
+            <label for="room number"> Number Of Rooms  </label> 
+            <select name="room_number" id="room number">
+                <option value="volvo">One</option>
+                <option value="saab">Two</option>
+                <option value="mercedes">Three</option>
+                <option value="audi">Four</option>
+                <option value="mercedes">Five</option>
+                <option value="audi">Six</option>
+                <option value="audi">Above</option>
+            </select>
+          
+          <div class="mb-3">
+            <label for="" class="form-label">Description</label>
+            <textarea name="Description" class="form-control" id="Description" rows="3"></textarea>
+          </div>
+              <label name="photo" for="photo">Upload a Photo:</label>
+              <input type="file" id="photo" name="photo" accept="image/*"><br><br>
+      
+              <label name="video" for="video">Upload a Video:</label>
+              <input type="file" id="video" name="video" accept="video/*"><br><br>
+      
+              <button type="submit">Submit</button>
+
+    </form>
+</div>
+
+
+{% endblock %}

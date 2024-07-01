@@ -3,18 +3,22 @@ from flask_wtf import FlaskForm
 from wtforms import StringField ,RadioField , SubmitField
 from wtforms.validators import DataRequired
 from . import db
+from flask_login import login_manager , login_required ,login_user , current_user
 from .models import User_Auth
 from werkzeug.security import generate_password_hash , check_password_hash
 auth=Blueprint("auth", __name__)
 
 
-class RegstrationForm (FlaskForm):
-       first_name=StringField('first_name' , validators=[DataRequired()])
-       middle_name=StringField('first_name' , validators=[DataRequired()])
-       last_name=StringField('first_name' , validators=[DataRequired()])
-       pasword=StringField('first_name' , validators=[DataRequired()])
-       AccountType=RadioField ("AccountType", choices=(["on",True] ,["off",False] ))
-       Submit=SubmitField('signup')
+
+@auth.route("/landlord", methods=["POST", "GET"])
+@login_required
+def landlord():
+    if current_user.AccountType=='Renter':
+           flash("Can Not Access This Page", category="error")
+           return render_template ("home.html")
+    
+    return render_template("landlord.html")
+
 
 
 @auth.route("/login", methods=["POST","GET"])
@@ -27,6 +31,7 @@ def login():
              if EmailExist:
                     if check_password_hash(EmailExist.password,password):
                             flash("Logged In Successfuly", category="success")
+                            login_user(EmailExist)
                             return render_template("home.html" )
                     else:
                            flash("Unkown User", category="error")
@@ -66,6 +71,7 @@ def signup():
                 db.session.add(newUser_Auth)
                 db.session.commit()
                 flash("Signed in Successfuly" , category="success")
-                return render_template("home.html")
+                
         
     return render_template("signup.html")
+
