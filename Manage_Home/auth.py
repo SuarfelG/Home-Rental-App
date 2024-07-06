@@ -1,11 +1,10 @@
-from flask import  Blueprint , render_template , request ,flash 
-from flask_wtf import FlaskForm
-from wtforms import StringField ,RadioField , SubmitField
-from wtforms.validators import DataRequired
-from . import db
+from flask import  Blueprint , render_template , request ,flash , current_app
+from . import db 
 from flask_login import login_manager , login_required ,login_user , current_user
-from .models import User_Auth
+from .models import User_Auth , Home_Data
 from werkzeug.security import generate_password_hash , check_password_hash
+from werkzeug.utils import secure_filename
+import os
 auth=Blueprint("auth", __name__)
 
 
@@ -13,11 +12,30 @@ auth=Blueprint("auth", __name__)
 @auth.route("/landlord", methods=["POST", "GET"])
 @login_required
 def landlord():
-    if current_user.AccountType=='Renter':
-           flash("Can Not Access This Page", category="error")
-           return render_template ("home.html")
-    
-    return render_template("landlord.html")
+        if current_user.AccountType=='Renter':
+                flash("Can Not Access This Page", category="error")
+                return render_template ("home.html")               
+        if request.method=="POST":
+                location=request.form.get("location")
+                room=request.form.get("rooms")
+                Description=request.form.get("Description")
+                photo = request.files['photo']
+                video = request.files['video']
+
+                photo_path = os.path.join(current_app.config['UPLOAD_FOLDER'], photo.filename)
+                video_path = os.path.join(current_app.config['UPLOAD_FOLDER'], video.filename)
+                if photo and photo.filename:
+                       photo.save(photo_path)
+                elif video and video.filename:
+                       video.save(video_path)
+
+                newupload=Home_Data(location=location , rooms=room , Home_Description=Description , photo_meta=photo_path , video_meta=video_path)
+                db.session.add(newupload)
+                db.session.commit()
+                       
+
+
+        return render_template("landlord.html")
 
 
 
@@ -71,6 +89,8 @@ def signup():
                 db.session.add(newUser_Auth)
                 db.session.commit()
                 flash("Signed in Successfuly" , category="success")
+                return render_template("landlord.html")
+
                 
         
     return render_template("signup.html")
