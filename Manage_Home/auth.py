@@ -24,20 +24,30 @@ def landlord():
 
                 photo_path = os.path.join(current_app.config['UPLOAD_FOLDER'], photo.filename)
                 video_path = os.path.join(current_app.config['UPLOAD_FOLDER'], video.filename)
-                if photo and photo.filename:
+                if (photo and photo.filename) and  (video and video.filename):
                        photo.save(photo_path)
-                elif video and video.filename:
                        video.save(video_path)
 
-                newupload=Home_Data(location=location , rooms=room , Home_Description=Description , photo_meta=photo_path , video_meta=video_path)
+                newupload=Home_Data(location=location , rooms=room , Home_Description=Description , photo_meta=photo_path , video_meta=video_path , user_id=current_user.id)
                 db.session.add(newupload)
                 db.session.commit()
-                       
-
+                flash("Uploaded Succesfuly" , category="success")
+                return render_template("home.html")
 
         return render_template("landlord.html")
 
-
+@auth.route("/modify" , methods=["POST","GET"])
+@login_required
+def modify():
+         if current_user.AccountType=='Renter':
+                flash("Can Not Access This Page", category="error")
+                return render_template ("home.html")   
+         home=Home_Data.query.filter_by(user_id=current_user.id).first()
+         #home=home.location
+         if request.method=="POST":
+                pass
+         
+         return render_template("modify.html", home=home)
 
 @auth.route("/login", methods=["POST","GET"])
 def login():
