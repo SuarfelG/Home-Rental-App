@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    
+<div class="forms">
+
+    <form action="{{ url_for('auth.landlord') }}" method="post" enctype="multipart/form-data">        
+  
+              <label for="" class="form-label">Location</label>
+              <input  placeholder={{home.location}}> 
+                <br><br>
+              <label for="room number"> Number Of Rooms  </label> 
+              <input  value={{home.rooms}}> 
+                <br><br>
+              <label for="" class="form-label">Description</label>
+              <textarea  value={{home.Home_description}}  ></textarea>    
+                <br><br>
+                <label name="photo" for="photo">Upload a Photo:</label>
+                <input  value={{home.photo_meta}}> 
+                <br><br><br>
+        
+                <label name="video" for="video">Upload a Video:</label>
+                <input  value={{home.video_meta}}> 
+                <br><br><br>
+        
+                <button type="submit">Submit</button>
+  
+      </form>
+  </div>
+  
+
+
+         
+   
+
+
+{% endblock  %}
