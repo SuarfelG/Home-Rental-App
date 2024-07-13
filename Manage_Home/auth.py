@@ -42,12 +42,21 @@ def modify():
          if current_user.AccountType=='Renter':
                 flash("Can Not Access This Page", category="error")
                 return render_template ("home.html")   
-         home=Home_Data.query.filter_by(user_id=current_user.id).first()
-         #home=home.location
+         home=Home_Data.query.filter_by(user_id=current_user.id)
+    
          if request.method=="POST":
                 pass
-         
+         for h in home :
+                print(h.location)
          return render_template("modify.html", home=home)
+
+@auth.route("/modifyhome/<value>" , methods=["POST","GET"])
+def modifyhome(value):
+         home=Home_Data.query.filter_by(Home_id=value).first()
+         print(home.location)
+
+         return render_template("modify.html", mod=home)
+
 
 @auth.route("/login", methods=["POST","GET"])
 def login():
@@ -98,6 +107,7 @@ def signup():
                 newUser_Auth=User_Auth(first_name=first_name , middle_name=middle_name , last_name=last_name ,email=email , password=generate_password_hash(password, method='pbkdf2:sha256')  , AccountType=AccountType )
                 db.session.add(newUser_Auth)
                 db.session.commit()
+                login_user(newUser_Auth)
                 flash("Signed in Successfuly" , category="success")
                 return render_template("landlord.html")
 
