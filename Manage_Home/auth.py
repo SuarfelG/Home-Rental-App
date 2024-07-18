@@ -43,17 +43,32 @@ def modify():
                 flash("Can Not Access This Page", category="error")
                 return render_template ("home.html")   
          home=Home_Data.query.filter_by(user_id=current_user.id)
-    
-         if request.method=="POST":
-                pass
-         for h in home :
-                print(h.location)
+   
          return render_template("modify.html", home=home)
 
 @auth.route("/modifyhome/<value>" , methods=["POST","GET"])
 def modifyhome(value):
          home=Home_Data.query.filter_by(Home_id=value).first()
-         print(home.location)
+         if request.method=="POST":
+                location=request.form.get("location")
+                room=request.form.get("rooms")
+                Description=request.form.get("Description")
+                photo = request.files['photo']
+                video = request.files['video']
+
+                photo_path = os.path.join(current_app.config['UPLOAD_FOLDER'], photo.filename)
+                video_path = os.path.join(current_app.config['UPLOAD_FOLDER'], video.filename)
+
+                if (photo and photo.filename) and  (video and video.filename):
+                       photo.save(photo_path)
+                       video.save(video_path)
+                       home.photo_meta=photo_path
+                       home.video_meta=video_path
+                home.location=location
+                home.rooms=room
+                home.Home_Description=Description
+                home.user_id=current_user.id
+                db.session.commit()
 
          return render_template("modify.html", mod=home)
 

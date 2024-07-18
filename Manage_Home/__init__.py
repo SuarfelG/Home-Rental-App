@@ -12,7 +12,9 @@ db = SQLAlchemy()
 
 def create_App():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = "1234567890"
+    app.config['SECRET_KEY']="ABSONOCHOABIREGNI"
+    app.config["SESSION_TYPE"]="sqlalchemy"
+    app.config["PERMANENT_SESSION_LIFETIME"]=timedelta(minutes=5)    
     app.config['SQLALCHEMY_DATABASE_URI'] =os.getenv("database_url")
     app.config["UPLOAD_FOLDER"]='uploads/'
     app.config["MAX_CONTENT_LENGTH"]=16*1024*1024
@@ -34,8 +36,8 @@ def create_App():
     login_manager.init_app(app)
 
     @login_manager.user_loader
-    def load_user(first_name):
-        user= User_Auth.query.get(first_name)
+    def load_user(id):
+        user= User_Auth.query.get(id)
         return user
 
     return app
