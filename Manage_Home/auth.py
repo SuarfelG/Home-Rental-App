@@ -71,7 +71,25 @@ def modifyhome(value):
                 db.session.commit()
 
          return render_template("modify.html", mod=home)
-
+@auth.route("/delete" , methods=["POST","GET"])
+@login_required
+def delete():
+       if current_user.AccountType=='Renter':
+                flash("Can Not Access This Page", category="error")
+                return render_template ("home.html")   
+       home=Home_Data.query.filter_by(user_id=current_user.id)
+       return render_template ("delete.html", home=home)
+@auth.route("deletehome/<value>",methods=["POST","GET"])
+def deletehome(value):
+       try:
+                home=Home_Data.query.filter_by(Home_id=value).first()
+                db.session.delete(home)
+                db.session.commit()
+                flash("User Successfuly Deleted" , category="success")
+                return render_template ("home.html")
+       except:
+                flash("Unable To Delete The Post Try Again", category="error")
+                return render_template ("home.html")
 
 @auth.route("/login", methods=["POST","GET"])
 def login():
@@ -125,8 +143,5 @@ def signup():
                 login_user(newUser_Auth)
                 flash("Signed in Successfuly" , category="success")
                 return render_template("landlord.html")
-
-                
-        
     return render_template("signup.html")
 
