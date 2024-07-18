@@ -1,0 +1,40 @@
+{% extends "landlord.html" %}
+
+{% block content %}
+
+<h1>This Is Landlord Page</h1>
+
+<div class="forms">
+
+  <form action="{{ url_for('auth.Post_House') }}" method="post" enctype="multipart/form-data">        
+
+            <label for="" class="form-label">Location</label>
+            <input name="location" type="text" class="form-control" id="Location" placeholder="Enter Home Location">
+  
+            <label for="room number"> Number Of Rooms  </label> 
+            <select name="rooms" id="room number" >
+                <option value="one">One</option>
+                <option value="two">Two</option>
+                <option value="three">Three</option>
+                <option value="four">Four</option>
+                <option value="five">Five</option>
+                <option value="six">Six</option>
+                <option value="greater than six">Above</option>
+            </select>
+          
+            <label for="" class="form-label">Description</label>
+            <textarea name="Description" class="form-control" id="Description" rows="3"></textarea>
+
+              <label name="photo" for="photo">Upload a Photo:</label>
+              <input type="file" id="photo" name="photo" accept="image/*"><br><br>
+      
+              <label name="video" for="video">Upload a Video:</label>
+              <input type="file" id="video" name="video" accept="video/*"><br><br>
+      
+              <button type="submit">Submit</button>
+
+    </form>
+</div>
+
+
+{% endblock %}

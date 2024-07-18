@@ -1,0 +1,13 @@
+{% extends "landlord.html" %}
+
+{% block content %}
+
+{% for h in home %}
+       <br>
+       Location : {{h.location}} <br>
+       Rooms : {{h.rooms}} <br>
+       Description : {{h.Home_Description}}
+
+       {% endfor %}
+
+{% endblock  %}

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "landlord.html" %}
 
 {% block content %}
 
@@ -8,13 +8,10 @@
     
 {% for h in home %}
 
-       <a href="{{url_for('auth.modifyhome' , value=h.Home_id) }}">{{h.location}} </a><br>
+       <a href="{{url_for('auth.updatehome' , value=h.Home_id) }}">{{h.location}} </a><br>
 {% endfor %}
 
 <h1></h1>
-
-
-
 
 
 {% if mod %}

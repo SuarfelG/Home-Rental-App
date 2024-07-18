@@ -1,3 +1,4 @@
+
 from flask import  Blueprint , render_template , request ,flash , current_app
 from . import db 
 from flask_login import login_manager , login_required ,login_user , current_user
@@ -9,9 +10,26 @@ auth=Blueprint("auth", __name__)
 
 
 
+
 @auth.route("/landlord", methods=["POST", "GET"])
 @login_required
 def landlord():
+        if current_user.AccountType=='Renter':
+                flash("Can Not Access This Page", category="error")
+                return render_template ("home.html")       
+        return render_template ("landlord.html")        
+@auth.route('/posted_houses')
+@login_required
+def posted_houses():
+        if current_user.AccountType=='Renter':
+                flash("Can Not Access This Page", category="error")
+                return render_template ("home.html")    
+        home=Home_Data.query.filter_by(user_id=current_user.id)
+        return render_template ("posted_houses.html" , home=home)
+
+@auth.route("/Post_House", methods=["POST", "GET"])
+@login_required
+def Post_House():
         if current_user.AccountType=='Renter':
                 flash("Can Not Access This Page", category="error")
                 return render_template ("home.html")               
@@ -21,7 +39,6 @@ def landlord():
                 Description=request.form.get("Description")
                 photo = request.files['photo']
                 video = request.files['video']
-
                 photo_path = os.path.join(current_app.config['UPLOAD_FOLDER'], photo.filename)
                 video_path = os.path.join(current_app.config['UPLOAD_FOLDER'], video.filename)
                 if (photo and photo.filename) and  (video and video.filename):
@@ -34,20 +51,27 @@ def landlord():
                 flash("Uploaded Succesfuly" , category="success")
                 return render_template("home.html")
 
-        return render_template("landlord.html")
+        return render_template("Post_house.html")
 
-@auth.route("/modify" , methods=["POST","GET"])
+@auth.route("/update" , methods=["POST","GET"])
 @login_required
 def modify():
+         if current_user.AccountType=='Renter':
+                flash("Can Not Access This Page", category="error")
+                return render_template ("home.html")    
          if current_user.AccountType=='Renter':
                 flash("Can Not Access This Page", category="error")
                 return render_template ("home.html")   
          home=Home_Data.query.filter_by(user_id=current_user.id)
    
-         return render_template("modify.html", home=home)
+         return render_template("Update_Post.html", home=home)
 
-@auth.route("/modifyhome/<value>" , methods=["POST","GET"])
-def modifyhome(value):
+@auth.route("/updatehome/<value>" , methods=["POST","GET"])
+@login_required
+def updatehome(value):
+         if current_user.AccountType=='Renter':
+                flash("Can Not Access This Page", category="error")
+                return render_template ("home.html")    
          home=Home_Data.query.filter_by(Home_id=value).first()
          if request.method=="POST":
                 location=request.form.get("location")
@@ -76,16 +100,23 @@ def modifyhome(value):
 def delete():
        if current_user.AccountType=='Renter':
                 flash("Can Not Access This Page", category="error")
+                return render_template ("home.html")    
+       if current_user.AccountType=='Renter':
+                flash("Can Not Access This Page", category="error")
                 return render_template ("home.html")   
        home=Home_Data.query.filter_by(user_id=current_user.id)
        return render_template ("delete.html", home=home)
 @auth.route("deletehome/<value>",methods=["POST","GET"])
+@login_required
 def deletehome(value):
+       if current_user.AccountType=='Renter':
+                flash("Can Not Access This Page", category="error")
+                return render_template ("home.html")    
        try:
                 home=Home_Data.query.filter_by(Home_id=value).first()
                 db.session.delete(home)
                 db.session.commit()
-                flash("User Successfuly Deleted" , category="success")
+                flash("Post Successfuly Deleted" , category="success")
                 return render_template ("home.html")
        except:
                 flash("Unable To Delete The Post Try Again", category="error")

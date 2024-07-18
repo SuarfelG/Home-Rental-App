@@ -1,9 +1,10 @@
-{% extends "base.html" %}
+{% extends "landlord.html" %}
 
 {% block content %}
 
 {% for h in home %}
        <a href="{{url_for('auth.deletehome' , value=h.Home_id) }}">{{h.location}} </a><br>
-{% endfor %}
+
+       {% endfor %}
 
 {% endblock  %}
