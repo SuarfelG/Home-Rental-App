@@ -1,5 +1,5 @@
 
-from flask import  Blueprint , render_template , request ,flash , current_app
+from flask import  Blueprint , render_template , request ,flash , current_app , redirect
 from . import db 
 from flask_login import login_manager , login_required ,login_user , current_user
 from .models import User_Auth , Home_Data
@@ -61,9 +61,10 @@ def signup():
                 db.session.commit()
                 login_user(newUser_Auth)
                 flash("Signed in Successfuly" , category="success")
-                if AccountType.lower()=="landlord":
-                        return render_template("landlord.html")
+
+                if AccountType.lower() =="landlord":
+                        return redirect("landlord")
                 else:
-                        return render_template("renter.html")
+                        return redirect ("renter")
     return render_template("signup.html")
 

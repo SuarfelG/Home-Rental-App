@@ -1,4 +1,4 @@
-from flask import  Blueprint , render_template , request ,flash , current_app
+from flask import  Blueprint , render_template , request ,flash , current_app , redirect
 from . import db 
 from flask_login import  login_required  , current_user
 from .models import Home_Data
@@ -36,16 +36,17 @@ def Post_House():
                 video = request.files['video']
                 photo_path = os.path.join(current_app.config['UPLOAD_FOLDER'], photo.filename)
                 video_path = os.path.join(current_app.config['UPLOAD_FOLDER'], video.filename)
-                photo_pass=photo.filename
+                photo_address=photo.filename
+                video_address=video.filename
                 if (photo and photo.filename) and  (video and video.filename):
                        photo.save(photo_path)
                        video.save(video_path)
 
-                newupload=Home_Data(location=location , rooms=room , Home_Description=Description , photo_meta=photo_path , video_meta=video_path , user_id=current_user.id)
+                newupload=Home_Data(location=location , rooms=room , Home_Description=Description , photo_meta=photo_path , video_meta=video_path , user_id=current_user.id , photo_address=photo_address, video_address=video_address)
                 db.session.add(newupload)
                 db.session.commit()
                 flash("Uploaded Succesfuly" , category="success")
-                return render_template("home.html")
+                return redirect ("renter")
 
         return render_template("Post_house.html")
 

@@ -24,4 +24,6 @@ class Home_Data (db.Model, UserMixin ):
     Home_Description=db.Column(db.String(200), nullable=False)
     photo_meta=db.Column(db.String(200), nullable=False)
     video_meta=db.Column(db.String(200), nullable=False)
+    photo_address=db.Column(db.String(200), nullable=False)
+    video_address=db.Column(db.String(200), nullable=False)
     user_id=db.Column(db.Integer,db.ForeignKey(User_Auth.id) ,nullable=False)
