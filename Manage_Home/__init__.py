@@ -16,7 +16,7 @@ def create_App():
     app.config["SESSION_TYPE"]="sqlalchemy"
     app.config["PERMANENT_SESSION_LIFETIME"]=timedelta(minutes=5)    
     app.config['SQLALCHEMY_DATABASE_URI'] =os.getenv("database_url")
-    app.config["UPLOAD_FOLDER"]='uploads/'
+    app.config["UPLOAD_FOLDER"]='Manage_Home/static/uploads/'
     app.config["MAX_CONTENT_LENGTH"]=16*1024*1024
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
@@ -24,10 +24,13 @@ def create_App():
     from .views import view
     from .auth import auth
     from .models import User_Auth , Home_Data
+    from .landlord import land
+    from .renter import rent
 
-
+    app.register_blueprint(rent, url_prefix='/')
     app.register_blueprint(view,url_prefix="/")
     app.register_blueprint(auth,url_prefix='/')
+    app.register_blueprint(land, url_prefix="/")
 
     create_database(app)
 

@@ -4,6 +4,22 @@
 
 <h1>This Is Renter's Page</h1>
 
+{% if home %}
+<div class="row mt-4">
+    {% for house in home %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <img src="{{house.photo_meta}}" alt="uploaded pic">
 
+            <div class="card-body">
+                <h5 class="card-title">Property 1</h5>
+                <p class="card-text">Description of the property. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit.</p>
+                <a href="#" class="btn btn-primary">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
 
 {% endblock %}
