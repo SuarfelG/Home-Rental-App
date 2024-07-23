@@ -32,6 +32,8 @@ def Post_House():
                 location=request.form.get("location")
                 room=request.form.get("rooms")
                 Description=request.form.get("Description")
+                price=request.form.get("price")
+                owner_address=current_user.email
                 photo = request.files['photo']
                 video = request.files['video']
                 photo_path = os.path.join(current_app.config['UPLOAD_FOLDER'], photo.filename)
@@ -42,10 +44,12 @@ def Post_House():
                        photo.save(photo_path)
                        video.save(video_path)
 
-                newupload=Home_Data(location=location , rooms=room , Home_Description=Description , photo_meta=photo_path , video_meta=video_path , user_id=current_user.id , photo_address=photo_address, video_address=video_address)
+                newupload=Home_Data(location=location , rooms=room , Home_Description=Description , photo_meta=photo_path , video_meta=video_path , user_id=current_user.id ,
+                                     photo_address=photo_address, video_address=video_address, price=price , owner_address=owner_address)
                 db.session.add(newupload)
                 db.session.commit()
                 flash("Uploaded Succesfuly" , category="success")
+                print(owner_address)
                 return redirect ("renter")
 
         return render_template("Post_house.html")
@@ -57,12 +61,9 @@ def Post_House():
 def modify():
          if current_user.AccountType=='Renter':
                 flash("Can Not Access This Page", category="error")
-                return render_template ("home.html")    
-         if current_user.AccountType=='Renter':
-                flash("Can Not Access This Page", category="error")
-                return render_template ("home.html")   
+                return render_template ("home.html") 
+            
          home=Home_Data.query.filter_by(user_id=current_user.id)
-   
          return render_template("Update_Post.html", home=home)
 
 @land.route("/updatehome/<value>" , methods=["POST","GET"])
@@ -76,6 +77,7 @@ def updatehome(value):
                 location=request.form.get("location")
                 room=request.form.get("rooms")
                 Description=request.form.get("Description")
+                price=request.form.get("price")
                 photo = request.files['photo']
                 video = request.files['video']
 
@@ -91,6 +93,8 @@ def updatehome(value):
                 home.rooms=room
                 home.Home_Description=Description
                 home.user_id=current_user.id
+                home.price=price
+                home.owner_address=current_user.email
                 db.session.commit()
 
          return render_template("Update_Post.html", mod=home)

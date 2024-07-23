@@ -16,12 +16,14 @@ def login():
              password=request.form.get('password')
              email=request.form.get('email')
              EmailExist=User_Auth.query.filter_by(email=email).first()
-
              if EmailExist:
                     if check_password_hash(EmailExist.password,password):
                             flash("Logged In Successfuly", category="success")
                             login_user(EmailExist)
-                            return render_template("home.html" )
+                            if  EmailExist.AccountType.lower()=="landlord":
+                                return redirect("landlord")
+                            else:
+                                return redirect("renter")
                     else:
                            flash("Unkown User", category="error")
                            return render_template("signup.html")

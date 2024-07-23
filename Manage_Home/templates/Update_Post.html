@@ -16,19 +16,22 @@
     <form action="" method="post" enctype="multipart/form-data">        
   
                 <label for="" class="form-label">Location</label>
-                <input name="location" type="text" class="form-control" id="Location" placeholder={{mod.location}}>
+                <input name="location" type="text" class="form-control" id="Location" value={{mod.location}}>
 
                 <label for="room number"> Number Of Rooms  </label> 
                 <br>
-                <input placeholder="{{mod.rooms}}" name="rooms" id="room number" >
+                <input value="{{mod.rooms}}" name="rooms" id="room number" >
                   <br>
               
                 <label for="" class="form-label">Description</label>
-                <textarea placeholder="{{mod.Description}}" name="Description" class="form-control" id="Description" rows="3"></textarea>
+                <textarea name="Description" class="form-control" id="Description" rows="3">{{mod.Home_Description}} </textarea>
+
+                <label for="">Monthly Price</label>
+                <input name="price" type="number" value="{{mod.price}}"><br><br>
 
             
                 <label name="photo" for="photo">Upload a Photo:</label>
-                <input type="file" id="photo" name="photo" accept="image/*"><br><br>
+                <input type="file" id="photo" name="photo" value="{{mod.photo_meta}}" accept="image/*"><br><br>
         
                 <label name="video" for="video">Upload a Video:</label>
                 <input type="file" id="video" name="video" accept="video/*"><br><br>

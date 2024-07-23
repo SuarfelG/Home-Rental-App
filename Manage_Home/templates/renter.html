@@ -11,9 +11,14 @@
         <div class="card">
             <img src="{{url_for ('static', filename='uploads/'~ house.photo_address)}}" alt="uploaded pic">
             <div class="card-body">
-                <h5 class="card-title">Property 1</h5>
                 <p class="card-text">{{house.Home_Description}}</p>
-                <a href="#" class="btn btn-primary">View Details</a>
+                    <p>Number Of Rooms : {{house.rooms}}</p>
+                    {% if house.price %}
+                    <p>Monthly Price : {{house.price}} USD</p> 
+                    {% endif %}
+
+                    <a href="#" class="btn btn-primary">Owner Address</a>
+
             </div>
         </div>
     </div>
