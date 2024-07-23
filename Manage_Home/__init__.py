@@ -5,14 +5,15 @@ from os import path
 from flask_login import LoginManager
 from flask_session import Session
 from datetime import timedelta
-
+import stripe
 
 db = SQLAlchemy()
 
 
 def create_App():
     app = Flask(__name__)
-    app.config['SECRET_KEY']="ABSONOCHOABIREGNI"
+    stripe.api_key=os.getenv("secret_key")
+    app.config['SECRET_KEY']=os.getenv("secret_key")
     app.config["SESSION_TYPE"]="sqlalchemy"
     app.config["PERMANENT_SESSION_LIFETIME"]=timedelta(minutes=5)    
     app.config['SQLALCHEMY_DATABASE_URI'] =os.getenv("database_url")
